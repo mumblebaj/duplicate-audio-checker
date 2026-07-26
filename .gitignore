@@ -2,3 +2,4 @@ duplicate_music_report.csv
 node_modules/
 .venv/
 .vscode/
+duplicate_music_report.csv
