@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Duplicate Music Finder</title>
+  <style>
+    :root {
+      --bg: #f6f3ec;
+      --panel: #fffdf8;
+      --ink: #1f1f1f;
+      --muted: #5f5a4f;
+      --accent: #0b7285;
+      --accent-2: #e67700;
+      --line: #d8d0bf;
+      --ok: #2b8a3e;
+      --bad: #c92a2a;
+      --shadow: 0 10px 30px rgba(20, 20, 20, 0.08);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      background: radial-gradient(1200px 500px at 20% -10%, #f2e8cf 0%, var(--bg) 55%);
+      color: var(--ink);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+
+    .card {
+      width: min(900px, 100%);
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    header {
+      padding: 22px 24px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(90deg, #faedcd 0%, #f8f4e8 70%);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(1.3rem, 3.2vw, 2rem);
+      letter-spacing: 0.02em;
+    }
+
+    .sub {
+      margin-top: 6px;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .content {
+      padding: 20px 24px 24px;
+      display: grid;
+      gap: 14px;
+    }
+
+    .row {
+      display: grid;
+      gap: 8px;
+    }
+
+    label {
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+    }
+
+    textarea {
+      min-height: 260px;
+      resize: vertical;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      font-size: 0.87rem;
+      line-height: 1.5;
+    }
+
+    .buttons {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      border: 0;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font: inherit;
+      cursor: pointer;
+      transition: transform 0.12s ease, opacity 0.12s ease;
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+    }
+
+    button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .pick {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .run {
+      background: var(--accent-2);
+      color: #fff;
+      font-weight: 600;
+    }
+
+    .status {
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 0.92rem;
+    }
+
+    .status.ok {
+      border-color: #b7dfbf;
+      background: #eefaf0;
+      color: var(--ok);
+    }
+
+    .status.bad {
+      border-color: #f2b8b8;
+      background: #fff1f1;
+      color: var(--bad);
+    }
+
+    .links {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      font-size: 0.92rem;
+    }
+
+    .links a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px dashed var(--accent);
+    }
+
+    .links a:hover {
+      opacity: 0.8;
+    }
+
+    @media (max-width: 680px) {
+      .content {
+        padding: 16px;
+      }
+      header {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="card">
+    <header>
+      <h1>Duplicate Music Finder</h1>
+      <div class="sub">Choose a directory, then run your Python scanner from this page.</div>
+    </header>
+
+    <section class="content">
+      <div class="row">
+        <label for="rootPath">Directory to scan</label>
+        <input id="rootPath" type="text" placeholder="C:\\Music\\Library" />
+      </div>
+
+      <div class="buttons">
+        <button id="pickButton" class="pick" type="button">Pick Directory</button>
+        <button id="runButton" class="run" type="button">Run Scan</button>
+      </div>
+
+      <div class="row">
+        <label for="deleteMode">Delete mode (optional, dangerous)</label>
+        <select id="deleteMode">
+          <option value="none">none (safe)</option>
+          <option value="oldest">delete newest duplicates (keep oldest)</option>
+          <option value="newest">delete oldest duplicates (keep newest)</option>
+          <option value="first">delete all but first path alphabetically</option>
+        </select>
+      </div>
+
+      <div id="status" class="status">Ready.</div>
+
+      <div class="links">
+        <a href="/report/html" target="_blank" rel="noreferrer">Open HTML report</a>
+        <a href="/report/csv">Download CSV report</a>
+      </div>
+
+      <div class="row">
+        <label for="output">Script output</label>
+        <textarea id="output" readonly></textarea>
+      </div>
+    </section>
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "duplicate-music-web-wrapper",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web UI wrapper for find_duplicate_music.py",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "start:py": "set \"PYTHON_BIN=C:/Users/User/AppData/Local/Microsoft/WindowsApps/python3.10.exe\" && npm start"
+  },
+  "dependencies": {
+    "express": "^4.21.0"
+  }
+}
