@@ -4,6 +4,33 @@ const runButton = document.getElementById("runButton");
 const statusEl = document.getElementById("status");
 const outputEl = document.getElementById("output");
 const deleteModeEl = document.getElementById("deleteMode");
+const themeButton = document.getElementById("themeButton");
+
+const themeStorageKey = "duplicate-music-theme";
+
+function getPreferredTheme() {
+  const savedTheme = localStorage.getItem(themeStorageKey);
+  if (savedTheme === "light" || savedTheme === "dark") {
+    return savedTheme;
+  }
+
+  return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+}
+
+function setTheme(theme) {
+  const nextTheme = theme === "dark" ? "dark" : "light";
+  document.documentElement.dataset.theme = nextTheme;
+  localStorage.setItem(themeStorageKey, nextTheme);
+  themeButton.textContent = nextTheme === "dark" ? "Light mode" : "Dark mode";
+  themeButton.setAttribute("aria-pressed", String(nextTheme === "dark"));
+}
+
+setTheme(getPreferredTheme());
+
+themeButton.addEventListener("click", () => {
+  const currentTheme = document.documentElement.dataset.theme === "dark" ? "dark" : "light";
+  setTheme(currentTheme === "dark" ? "light" : "dark");
+});
 
 function setStatus(message, variant = "") {
   statusEl.textContent = message;

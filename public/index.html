@@ -6,16 +6,37 @@
   <title>Duplicate Music Finder</title>
   <style>
     :root {
+      color-scheme: light;
       --bg: #f6f3ec;
+      --bg-glow: #f2e8cf;
       --panel: #fffdf8;
+      --panel-strong: #f8f4e8;
       --ink: #1f1f1f;
       --muted: #5f5a4f;
       --accent: #0b7285;
       --accent-2: #e67700;
       --line: #d8d0bf;
+      --field: #ffffff;
       --ok: #2b8a3e;
       --bad: #c92a2a;
       --shadow: 0 10px 30px rgba(20, 20, 20, 0.08);
+    }
+
+    :root[data-theme="dark"] {
+      color-scheme: dark;
+      --bg: #101418;
+      --bg-glow: #17222b;
+      --panel: #161b21;
+      --panel-strong: #1b222b;
+      --ink: #edf2f7;
+      --muted: #a2adbb;
+      --accent: #4cc9f0;
+      --accent-2: #f59f00;
+      --line: #2a3440;
+      --field: #0f141a;
+      --ok: #63e6be;
+      --bad: #ff8787;
+      --shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
     }
 
     * {
@@ -25,7 +46,9 @@
     body {
       margin: 0;
       font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-      background: radial-gradient(1200px 500px at 20% -10%, #f2e8cf 0%, var(--bg) 55%);
+      background:
+        radial-gradient(1200px 500px at 20% -10%, var(--bg-glow) 0%, transparent 55%),
+        var(--bg);
       color: var(--ink);
       min-height: 100vh;
       display: grid;
@@ -45,7 +68,15 @@
     header {
       padding: 22px 24px;
       border-bottom: 1px solid var(--line);
-      background: linear-gradient(90deg, #faedcd 0%, #f8f4e8 70%);
+      background: linear-gradient(90deg, var(--panel-strong) 0%, var(--panel) 70%);
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .title-wrap {
+      min-width: 0;
     }
 
     h1 {
@@ -83,7 +114,7 @@
       padding: 11px 12px;
       border: 1px solid var(--line);
       border-radius: 10px;
-      background: #fff;
+      background: var(--field);
       color: var(--ink);
       font: inherit;
     }
@@ -132,11 +163,23 @@
       font-weight: 600;
     }
 
+    .theme-toggle {
+      background: transparent;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      white-space: nowrap;
+      align-self: start;
+    }
+
+    .theme-toggle:hover {
+      background: color-mix(in srgb, var(--panel-strong) 70%, transparent);
+    }
+
     .status {
       padding: 10px 12px;
       border-radius: 10px;
       border: 1px solid var(--line);
-      background: #fff;
+      background: var(--field);
       font-size: 0.92rem;
     }
 
@@ -182,8 +225,11 @@
 <body>
   <main class="card">
     <header>
-      <h1>Duplicate Music Finder</h1>
-      <div class="sub">Choose a directory, then run your Python scanner from this page.</div>
+      <div class="title-wrap">
+        <h1>Duplicate Music Finder</h1>
+        <div class="sub">Choose a directory, then run your Python scanner from this page.</div>
+      </div>
+      <button id="themeButton" class="theme-toggle" type="button" aria-pressed="false">Dark mode</button>
     </header>
 
     <section class="content">
